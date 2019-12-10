@@ -1,0 +1,151 @@
+#!/usr/bin/env python
+
+# Format for the info published to the rostopic:
+# Button Number, is_button, value
+
+# If is_button is true, then value=1 is button down and value=0 is button up.
+
+from evdev import InputDevice, categorize, ecodes
+from enum import Enum
+import argparse
+
+parser = argparse.ArgumentParser(description='Map Controller Inputs to ROS outputs.')
+parser.add_argument('-i', '--input_event', type=str, default='/dev/input/event2',
+	help='The event in /dev/input/ where the controller events come from')
+
+args = parser.parse_args()
+
+class Button(Enum):
+	LEFT_ACTION = 1
+	RIGHT_ACTION = 2
+	UP_ACTION = 3
+	DOWN_ACTION = 4
+
+	LEFT_DIRECTION = 5
+	RIGHT_DIRECTION = 6
+	UP_DIRECTION = 7
+	DOWN_DIRECTION = 8
+
+	LEFT_TRIGGER = 9
+	RIGHT_TRIGGER = 10
+	LEFT_BUMPER = 11
+	RIGHT_BUMPER = 12
+
+	START = 13
+	SELECT = 14
+
+	LEFT_STICK_MOVE = 15
+	RIGHT_STICK_MOVE = 16
+	LEFT_STICK_PRESS = 17
+	RIGHT_STICK_PRESS = 18
+
+	INPUT_BUTTON_PRESSED = 19
+	INPUT_BUTTON_RELEASED = 20
+
+gamepad = InputDevice(args.input_event)
+
+print(gamepad)
+
+sqBtn = 308
+xBtn = 304
+circBtn = 305
+triBtn = 307
+
+lTrig = 310
+rTrig = 311
+
+lBump = 312
+rBump = 313
+lBumpAbs = 2
+rBumpAbs = 5
+
+lStick = 317
+rStick = 318
+
+start = 315
+select = 314
+
+lStickUpDownAbs = 1
+lStickLeftRightAbs = 0
+
+rStickLeftRightAbs = 3
+rStickUpDownAbs = 4
+
+
+# updown and leftright are for the directional buttons, even though they don't have
+# values other than 255 and -255.
+# up is negative, down is positive, 0 is release.
+updown = 17
+
+# left is negative, right is positive, 0 is release.
+leftright = 16
+
+for event in gamepad.read_loop():
+	eventmsg = (0, 0, 0)
+	#print(categorize(event))
+	if event.type == ecodes.EV_ABS:
+		#print(event)
+		if event.code == updown:
+			if event.value < 0:
+				eventmsg = (Button.UP_DIRECTION, 1, event.value)
+				print("UP")
+			elif event.value > 0:
+				eventmsg = (Button.DOWN_DIRECTION, 1, event.value)
+				print("DOWN")
+		elif event.code == leftright:
+			if event.value < 0:
+				eventmsg = (Button.LEFT_DIRECTION, 1, event.value)
+				print("LEFT")
+			elif event.value > 0:
+				eventmsg = (Button.RIGHT_DIRECTION, 1, event.value)
+				print("RIGHT")
+
+		elif event.code == lBumpAbs:
+			print("RIGHT BUMPER: %d" % event.value)
+		elif event.code == rBumpAbs:
+			print("LEFT BUMPER: %d" % event.value)
+
+		elif event.code == lStickUpDownAbs:
+			print("LEFT STICK UP/DOWN: %d" % event.value)
+		elif event.code == lStickLeftRightAbs:
+			print("LEFT STICK LEFT/RIGHT: %d" % event.value)
+		elif event.code == rSitckUpDownAbs:
+			print("RIGHT STICK UP/DOWN %d" % event.value)
+		elif event.code == rStickLeftRightAbs:
+			print("RIGHT STICK LEFT/RIGHT: %d" % event.value)
+
+	if event.type == ecodes.EV_KEY:
+		if event.code == sqBtn:
+			eventmsg = (Button.LEFT_ACTION, 1, event.value)
+			print("SQUARE")
+		elif event.code == xBtn:
+			print("X")
+			eventmsg = (Button.DOWN_ACTION, 1, event.value)
+		elif event.code == circBtn:
+			eventmsg = (Button.RIGHT_ACTION, 1, event.value)
+			print("CIRCLE")
+		elif event.code == triBtn:
+			eventmsg = (Button.UP_ACTION, 1, event.value)
+			print("TRIANGLE")
+
+		# ??? Probably just ignore these.
+		elif event.code == lTrig:
+			print("LEFT TRIGGER")
+		elif event.code == rTrig:
+			print("RIGHT TRIGGER")
+
+		elif event.code == lBump:
+			eventmsg = (Button.LEFT_BUMPER, 1, event.value)
+			print("LEFT BUMPER")
+		elif event.code == rBump:
+			eventmsg = (Button.RIGHT_BUMPER, 1, event.value)
+			print("RIGHT BUMPER")
+
+		elif event.code == start:
+			eventmsg = (Button.START, 1, event.value)
+			print("START")
+		elif event.code == select:
+			eventmsg = (Button.SELECT, 1, event.value)
+			print("SELECT")
+
+	print(eventmsg)

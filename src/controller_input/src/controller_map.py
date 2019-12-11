@@ -34,13 +34,15 @@ class Button(Enum):
 	START = 13
 	SELECT = 14
 
-	LEFT_STICK_MOVE = 15
-	RIGHT_STICK_MOVE = 16
-	LEFT_STICK_PRESS = 17
-	RIGHT_STICK_PRESS = 18
+	LEFT_STICK_MOVE_VERTICAL = 15
+	LEFT_STICK_MOVE_HORIZONTAL = 16
+	RIGHT_STICK_MOVE_VERTICAL = 17
+	RIGHT_STICK_MOVE_HORIZONTAL = 18
+	LEFT_STICK_PRESS = 19
+	RIGHT_STICK_PRESS = 20
 
-	INPUT_BUTTON_PRESSED = 19
-	INPUT_BUTTON_RELEASED = 20
+	INPUT_BUTTON_PRESSED = 21
+	INPUT_BUTTON_RELEASED = 22
 
 gamepad = InputDevice(args.input_event)
 
@@ -88,45 +90,51 @@ for event in gamepad.read_loop():
 		if event.code == updown:
 			if event.value < 0:
 				eventmsg = (Button.UP_DIRECTION, 1, event.value)
-				print("UP")
+				#print("UP")
 			elif event.value > 0:
 				eventmsg = (Button.DOWN_DIRECTION, 1, event.value)
-				print("DOWN")
+				#print("DOWN")
 		elif event.code == leftright:
 			if event.value < 0:
 				eventmsg = (Button.LEFT_DIRECTION, 1, event.value)
-				print("LEFT")
+				#print("LEFT")
 			elif event.value > 0:
 				eventmsg = (Button.RIGHT_DIRECTION, 1, event.value)
-				print("RIGHT")
+				#print("RIGHT")
 
 		elif event.code == lBumpAbs:
-			print("RIGHT BUMPER: %d" % event.value)
+			eventmsg = (Button.RIGHT_TRIGGER, 0, event.value)
+			#print("RIGHT BUMPER: %d" % event.value)
 		elif event.code == rBumpAbs:
-			print("LEFT BUMPER: %d" % event.value)
+			eventmsg = (Button.LEFT_TRIGGER, 0, event.value)
+			#print("LEFT BUMPER: %d" % event.value)
 
 		elif event.code == lStickUpDownAbs:
-			print("LEFT STICK UP/DOWN: %d" % event.value)
+			eventmsg = (Button.LEFT_STICK_MOVE_VERTICAL, 0, event.value)
+			#print("LEFT STICK UP/DOWN: %d" % event.value)
 		elif event.code == lStickLeftRightAbs:
-			print("LEFT STICK LEFT/RIGHT: %d" % event.value)
+			eventmsg = (Button.LEFT_STICK_MOVE_HORIZONTAL, 0, event.value)
+			#print("LEFT STICK LEFT/RIGHT: %d" % event.value)
 		elif event.code == rSitckUpDownAbs:
-			print("RIGHT STICK UP/DOWN %d" % event.value)
+			eventmsg = (Button.RIGHT_STICK_MOVE_VERTICAL, 0, event.value)
+			#print("RIGHT STICK UP/DOWN %d" % event.value)
 		elif event.code == rStickLeftRightAbs:
-			print("RIGHT STICK LEFT/RIGHT: %d" % event.value)
+			eventmsg = (Button.RIGHT_STICK_MOVE_HORIZONTAL, 0 , event.value)
+			#print("RIGHT STICK LEFT/RIGHT: %d" % event.value)
 
 	if event.type == ecodes.EV_KEY:
 		if event.code == sqBtn:
 			eventmsg = (Button.LEFT_ACTION, 1, event.value)
-			print("SQUARE")
+			#print("SQUARE")
 		elif event.code == xBtn:
-			print("X")
+			#print("X")
 			eventmsg = (Button.DOWN_ACTION, 1, event.value)
 		elif event.code == circBtn:
 			eventmsg = (Button.RIGHT_ACTION, 1, event.value)
-			print("CIRCLE")
+			#print("CIRCLE")
 		elif event.code == triBtn:
 			eventmsg = (Button.UP_ACTION, 1, event.value)
-			print("TRIANGLE")
+			#print("TRIANGLE")
 
 		# ??? Probably just ignore these.
 		elif event.code == lTrig:
@@ -136,16 +144,16 @@ for event in gamepad.read_loop():
 
 		elif event.code == lBump:
 			eventmsg = (Button.LEFT_BUMPER, 1, event.value)
-			print("LEFT BUMPER")
+			#print("LEFT BUMPER")
 		elif event.code == rBump:
 			eventmsg = (Button.RIGHT_BUMPER, 1, event.value)
-			print("RIGHT BUMPER")
+			#print("RIGHT BUMPER")
 
 		elif event.code == start:
 			eventmsg = (Button.START, 1, event.value)
-			print("START")
+			#print("START")
 		elif event.code == select:
 			eventmsg = (Button.SELECT, 1, event.value)
-			print("SELECT")
+			#print("SELECT")
 
 	print(eventmsg)

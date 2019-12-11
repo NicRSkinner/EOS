@@ -53,13 +53,13 @@ xBtn = 304
 circBtn = 305
 triBtn = 307
 
-lTrig = 310
-rTrig = 311
+lBump = 310
+rBump = 311
 
-lBump = 312
-rBump = 313
-lBumpAbs = 2
-rBumpAbs = 5
+lTrig = 312
+rTrig = 313
+lTrigAbs = 5
+rTrigAbs = 2
 
 lStick = 317
 rStick = 318
@@ -90,70 +90,52 @@ for event in gamepad.read_loop():
 		if event.code == updown:
 			if event.value < 0:
 				eventmsg = (Button.UP_DIRECTION, 1, event.value)
-				#print("UP")
 			elif event.value > 0:
 				eventmsg = (Button.DOWN_DIRECTION, 1, event.value)
-				#print("DOWN")
 		elif event.code == leftright:
 			if event.value < 0:
 				eventmsg = (Button.LEFT_DIRECTION, 1, event.value)
-				#print("LEFT")
 			elif event.value > 0:
 				eventmsg = (Button.RIGHT_DIRECTION, 1, event.value)
-				#print("RIGHT")
 
-		elif event.code == lBumpAbs:
+		elif event.code == lTrigAbs:
 			eventmsg = (Button.RIGHT_TRIGGER, 0, event.value)
-			#print("RIGHT BUMPER: %d" % event.value)
-		elif event.code == rBumpAbs:
+		elif event.code == rTrigAbs:
 			eventmsg = (Button.LEFT_TRIGGER, 0, event.value)
-			#print("LEFT BUMPER: %d" % event.value)
 
 		elif event.code == lStickUpDownAbs:
 			eventmsg = (Button.LEFT_STICK_MOVE_VERTICAL, 0, event.value)
-			#print("LEFT STICK UP/DOWN: %d" % event.value)
 		elif event.code == lStickLeftRightAbs:
 			eventmsg = (Button.LEFT_STICK_MOVE_HORIZONTAL, 0, event.value)
-			#print("LEFT STICK LEFT/RIGHT: %d" % event.value)
-		elif event.code == rSitckUpDownAbs:
+		elif event.code == rStickUpDownAbs:
 			eventmsg = (Button.RIGHT_STICK_MOVE_VERTICAL, 0, event.value)
-			#print("RIGHT STICK UP/DOWN %d" % event.value)
 		elif event.code == rStickLeftRightAbs:
 			eventmsg = (Button.RIGHT_STICK_MOVE_HORIZONTAL, 0 , event.value)
-			#print("RIGHT STICK LEFT/RIGHT: %d" % event.value)
 
 	if event.type == ecodes.EV_KEY:
 		if event.code == sqBtn:
 			eventmsg = (Button.LEFT_ACTION, 1, event.value)
-			#print("SQUARE")
 		elif event.code == xBtn:
-			#print("X")
 			eventmsg = (Button.DOWN_ACTION, 1, event.value)
 		elif event.code == circBtn:
 			eventmsg = (Button.RIGHT_ACTION, 1, event.value)
-			#print("CIRCLE")
 		elif event.code == triBtn:
 			eventmsg = (Button.UP_ACTION, 1, event.value)
-			#print("TRIANGLE")
-
-		# ??? Probably just ignore these.
-		elif event.code == lTrig:
-			print("LEFT TRIGGER")
-		elif event.code == rTrig:
-			print("RIGHT TRIGGER")
 
 		elif event.code == lBump:
 			eventmsg = (Button.LEFT_BUMPER, 1, event.value)
-			#print("LEFT BUMPER")
 		elif event.code == rBump:
 			eventmsg = (Button.RIGHT_BUMPER, 1, event.value)
-			#print("RIGHT BUMPER")
+
+		elif event.code = lStick:
+			eventmsg = (Button.LEFT_STICK_PRESS, 1, event.value)
+		elif event.code = rStick:
+			eventmsg = (Button.RIGHT_STICK_PRESS, 1, event.value)
 
 		elif event.code == start:
 			eventmsg = (Button.START, 1, event.value)
-			#print("START")
 		elif event.code == select:
 			eventmsg = (Button.SELECT, 1, event.value)
-			#print("SELECT")
 
-	print(eventmsg)
+	if eventmsg[0] is not 0:
+		print(eventmsg)

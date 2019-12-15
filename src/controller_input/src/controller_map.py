@@ -127,9 +127,9 @@ for event in gamepad.read_loop():
 		elif event.code == rBump:
 			eventmsg = (Button.RIGHT_BUMPER, 1, event.value)
 
-		elif event.code = lStick:
+		elif event.code == lStick:
 			eventmsg = (Button.LEFT_STICK_PRESS, 1, event.value)
-		elif event.code = rStick:
+		elif event.code == rStick:
 			eventmsg = (Button.RIGHT_STICK_PRESS, 1, event.value)
 
 		elif event.code == start:

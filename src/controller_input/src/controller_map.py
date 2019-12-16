@@ -15,8 +15,6 @@ parser = argparse.ArgumentParser(description='Map Controller Inputs to ROS outpu
 parser.add_argument('-i', '--input_event', type=str, default='/dev/input/event2',
 	help='The event in /dev/input/ where the controller events come from')
 
-args = parser.parse_args()
-
 class Button(Enum):
 	LEFT_ACTION = 1
 	RIGHT_ACTION = 2
@@ -39,14 +37,13 @@ class Button(Enum):
 	LEFT_STICK_MOVE_VERTICAL = 15
 	LEFT_STICK_MOVE_HORIZONTAL = 16
 	RIGHT_STICK_MOVE_VERTICAL = 17
+	
 	RIGHT_STICK_MOVE_HORIZONTAL = 18
 	LEFT_STICK_PRESS = 19
 	RIGHT_STICK_PRESS = 20
 
-	INPUT_BUTTON_PRESSED = 21
-	INPUT_BUTTON_RELEASED = 22
-
 def getGamepadOutputs():
+	args = parser.parse_args()
 	gamepad = InputDevice(args.input_event)
 	pub = rospy.Publisher("gamepad", gamepad_output, queue_size=100)
 	rospy.init_node('gamepad_publisher', anonymous=True)

@@ -5,6 +5,7 @@
 
 #include "driverinterface.h"
 
+#define MAX_BUF 64
 
 class ESCDriver : public DriverInterface
 {
@@ -16,7 +17,10 @@ public:
     int read();
 
 private:
-    void signalAlarm(int sig_num);
+    void export_pwms();
+    void set_period();
+    void set_duties();
+
 
     int chanel;
     int signal;

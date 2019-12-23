@@ -24,8 +24,7 @@ private:
     void stop_pwms();
 
 
-    int chanel;
-    int signal;
+    int channel;
     unsigned long int minns;
     unsigned long int maxns;
     unsigned long int centerns;

@@ -1,3 +1,6 @@
+#ifndef _ESCDRIVER_H_
+#define _ESCDRIVER_H_
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -14,7 +17,6 @@
 class ESCDriver
 {
 public:
-    ESCDriver();
     ESCDriver(int channel, unsigned long int min, unsigned long int max, unsigned long int center);
     void start();
     void stop();
@@ -33,4 +35,8 @@ private:
     unsigned long int minns;
     unsigned long int maxns;
     unsigned long int centerns;
+
+    ESCDriver();
 };
+
+#endif

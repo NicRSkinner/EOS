@@ -1,10 +1,5 @@
 #include "escdriver.h"
 
-ESCDriver::ESCDriver()
-{
-
-}
-
 ESCDriver::ESCDriver(int channel, unsigned long int minns,
     unsigned long int maxns, unsigned long int centerns)
 {
@@ -145,3 +140,6 @@ void ESCDriver::stop_pwms()
     write(fd, buf, len);
     close(fd);
 }
+
+ESCDriver::ESCDriver()
+{ }

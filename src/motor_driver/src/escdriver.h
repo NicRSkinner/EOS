@@ -14,7 +14,8 @@
 class ESCDriver
 {
 public:
-    ESCDriver(int channel, int min, int max, int center);
+    ESCDriver();
+    ESCDriver(int channel, unsigned long int min, unsigned long int max, unsigned long int center);
     void start();
     void stop();
     void send(int val);
@@ -32,4 +33,4 @@ private:
     unsigned long int minns;
     unsigned long int maxns;
     unsigned long int centerns;
-}
+};

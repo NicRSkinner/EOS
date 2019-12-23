@@ -1,27 +1,31 @@
 #include "escdriver.h"
 
+ESCDriver::ESCDriver()
+{
+
+}
+
 ESCDriver::ESCDriver(int channel, unsigned long int minns,
     unsigned long int maxns, unsigned long int centerns)
 {
-    this.channel = channel;
-    this.signal = 0;
-    this.minns = minns;
-    this.maxns = maxns;
-    this.centerns = centerns;
+    this->channel = channel;
+    this->minns = minns;
+    this->maxns = maxns;
+    this->centerns = centerns;
 }
 
 void ESCDriver::start()
 {
-    this.export_pwms();
-    this.set_period(2000000); // Period=20ms
-    this.send(this.center);
-    this.start_pwms();
+    this->export_pwms();
+    this->set_period(2000000); // Period=20ms
+    this->send(this->centerns);
+    this->start_pwms();
 }
 
 void ESCDriver::stop()
 {
-    this.send(this.center);
-    this.stop_pwms();
+    this->send(this->centerns);
+    this->stop_pwms();
 }
 
 void ESCDriver::send(int val)
@@ -31,7 +35,7 @@ void ESCDriver::send(int val)
 
 int ESCDriver::read()
 {
-
+    return -1;
 }
 
 void ESCDriver::export_pwms()
@@ -41,9 +45,9 @@ void ESCDriver::export_pwms()
     char path[MAX_BUF];
     struct stat st;
 
-    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d", this.channel);
+    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d", this->channel);
 
-    if (stat(path, %st) == 0)
+    if (stat(path, &st) == 0)
         return;
 
     fd = open("/sys/class/pwm/pwmchip0/export", O_WRONLY);
@@ -54,7 +58,7 @@ void ESCDriver::export_pwms()
         return;
     }
 
-    len = snprintf(buf, sizeof(buf), "%d", this.channel);
+    len = snprintf(buf, sizeof(buf), "%d", this->channel);
     write(fd, buf, len);
     close(fd);
 
@@ -65,7 +69,7 @@ void ESCDriver::set_period(unsigned long int ns)
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/period_ns", this.channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/period_ns", this->channel);
 
     fd = open(buf, O_WRONLY);
     
@@ -87,7 +91,7 @@ void ESCDriver::set_duty(unsigned long int duty)
     char buf[MAX_BUF];
     char path[MAX_BUF];
 
-    path = snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d/duty_ns", this.channel);
+    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d/duty_ns", this->channel);
 
     fd = open(path, O_WRONLY);
 
@@ -107,7 +111,7 @@ void ESCDriver::start_pwms()
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this.channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this->channel);
 
     fd = open(buf, O_WRONLY);
 
@@ -127,7 +131,7 @@ void ESCDriver::stop_pwms()
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this.channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this->channel);
 
     fd = open(buf, O_WRONLY);
 

@@ -18,7 +18,7 @@ public:
 
 private:
     void export_pwms();
-    void set_period();
+    void set_period(long ns);
     void set_duties();
 
 

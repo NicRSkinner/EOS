@@ -55,9 +55,25 @@ void ESCDriver::export_pwms()
 
 }
 
-void ESCDriver::set_period()
+void ESCDriver::set_period(long ns)
 {
+    int fd, len;
+    char buf[MAX_BUF];
 
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/period_ns", this.channel);
+
+    fd = open(buf, O_WRONLY);
+    
+    if (fd < 0)
+    {
+        perror("unable to open pwm/period_ns");
+        return;
+    }
+
+    len = snprintf(buf, sizeof(buf), "%lu", ns);
+    
+    write(fd, buf, len);
+    close(fd);
 }
 
 void ESCDriver::set_duties()

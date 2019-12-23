@@ -18,8 +18,8 @@ public:
 
 private:
     void export_pwms();
-    void set_period(long ns);
-    void set_duties();
+    void set_period(unsigned long int ns);
+    void set_duty(unsigned long int duty);
 
 
     int chanel;

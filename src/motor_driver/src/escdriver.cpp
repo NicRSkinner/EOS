@@ -55,7 +55,7 @@ void ESCDriver::export_pwms()
 
 }
 
-void ESCDriver::set_period(long ns)
+void ESCDriver::set_period(unsigned long int ns)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -76,7 +76,7 @@ void ESCDriver::set_period(long ns)
     close(fd);
 }
 
-void ESCDriver::set_duties()
+void ESCDriver::set_duty(unsigned long int duty)
 {
 
 }

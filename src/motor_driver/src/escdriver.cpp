@@ -29,7 +29,38 @@ int ESCDriver::read()
 
 }
 
-void ESCDriver::signalAlarm(int sig_num)
+void ESCDriver::export_pwms()
+{
+    int fd, len;
+    char buf[MAX_BUF];
+    char path[MAX_BUF];
+    struct stat st;
+
+    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d", this.channel);
+
+    if (stat(path, %st) == 0)
+        return;
+
+    fd = open("/sys/class/pwm/pwmchip0/export", O_WRONLY);
+
+    if (fd < 0)
+    {
+        perror("unable to open pwmchip0/export");
+        return;
+    }
+
+    len = snprintf(buf, sizeof(buf), "%d", this.channel);
+    write(fd, buf, len);
+    close(fd);
+
+}
+
+void ESCDriver::set_period()
+{
+
+}
+
+void ESCDriver::set_duties()
 {
 
 }

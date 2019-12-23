@@ -78,5 +78,21 @@ void ESCDriver::set_period(unsigned long int ns)
 
 void ESCDriver::set_duty(unsigned long int duty)
 {
+    int fd, len;
+    char buf[MAX_BUF];
+    char path[MAX_BUF];
 
+    path = snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d/duty_ns", this.channel);
+
+    fd = open(path, O_WRONLY);
+
+    if (fd < 0)
+    {
+        perror("unable to open pwm/duty_ns");
+        return;
+    }
+
+    len = snprintf(buf, sizeof(buf), "%lu", duty);
+    write(fd, buf, len);
+    close(fd);
 }

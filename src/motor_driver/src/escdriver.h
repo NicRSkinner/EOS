@@ -20,6 +20,8 @@ private:
     void export_pwms();
     void set_period(unsigned long int ns);
     void set_duty(unsigned long int duty);
+    void start_pwms();
+    void stop_pwms();
 
 
     int chanel;

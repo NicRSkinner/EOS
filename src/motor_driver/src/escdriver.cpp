@@ -96,3 +96,43 @@ void ESCDriver::set_duty(unsigned long int duty)
     write(fd, buf, len);
     close(fd);
 }
+
+void ESCDriver::start_pwms()
+{
+    int fd, len;
+    char buf[MAX_BUF];
+
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this.channel);
+
+    fd = open(buf, O_WRONLY);
+
+    if (fd < 0)
+    {
+        perror("unable to open pwm/run");
+        return;
+    }
+
+    len = snprintf(buf, sizeof(buf), "%d", 1);
+    write(fd, buf, len);
+    close(fd);
+}
+
+void ESCDriver::stop_pwms()
+{
+    int fd, len;
+    char buf[MAX_BUF];
+
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this.channel);
+
+    fd = open(buf, O_WRONLY);
+
+    if (fd < 0)
+    {
+        perror("unable to open pwm/run");
+        return;
+    }
+
+    len = snprintf(buf, sizeof(buf), "%d", 0);
+    write(fd, buf, len);
+    close(fd);
+}

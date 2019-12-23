@@ -1,22 +1,27 @@
 #include "escdriver.h"
 
-ESCDriver::ESCDriver(int channel, int min, int max, int center)
+ESCDriver::ESCDriver(int channel, unsigned long int minns,
+    unsigned long int maxns, unsigned long int centerns)
 {
     this.channel = channel;
     this.signal = 0;
-    this.min = min;
-    this.max = max;
-    this.center = center;
+    this.minns = minns;
+    this.maxns = maxns;
+    this.centerns = centerns;
 }
 
 void ESCDriver::start()
 {
-    
+    this.export_pwms();
+    this.set_period(2000000); // Period=20ms
+    this.send(this.center);
+    this.start_pwms();
 }
 
 void ESCDriver::stop()
 {
-
+    this.send(this.center);
+    this.stop_pwms();
 }
 
 void ESCDriver::send(int val)

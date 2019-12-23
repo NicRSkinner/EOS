@@ -26,7 +26,7 @@ private:
 
     int chanel;
     int signal;
-    int min;
-    int max;
-    int center;
+    unsigned long int minns;
+    unsigned long int maxns;
+    unsigned long int centerns;
 }

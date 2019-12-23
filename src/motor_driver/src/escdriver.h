@@ -1,13 +1,17 @@
-//#include <wiringPi.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <unistd.h>
-
-#include "driverinterface.h"
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <poll.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <iostream>
 
 #define MAX_BUF 64
 
-class ESCDriver : public DriverInterface
+class ESCDriver
 {
 public:
     ESCDriver(int channel, int min, int max, int center);

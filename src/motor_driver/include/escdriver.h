@@ -17,11 +17,12 @@
 class ESCDriver
 {
 public:
-    ESCDriver(int channel, unsigned long int min, unsigned long int max, unsigned long int center);
+    ESCDriver(int channel, unsigned long int minns, unsigned long int maxns, unsigned long int centerns);
     void start();
     void stop();
     void send(int val);
     int read();
+    
 
 private:
     void export_pwms();

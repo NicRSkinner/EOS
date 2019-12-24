@@ -1,25 +1,35 @@
 #include "escdriver.h"
 
 ESCDriver::ESCDriver(int channel, unsigned long int minns,
-    unsigned long int maxns, unsigned long int centerns)
+    unsigned long int maxns, unsigned long int centerns, bool reversable)
 {
     this->channel = channel;
     this->minns = minns;
     this->maxns = maxns;
     this->centerns = centerns;
+    this->reversable = reversable;
 }
 
 void ESCDriver::start()
 {
     this->export_pwms();
     this->set_period(2000000); // Period=20ms
-    this->send(this->centerns);
+
+    if (this->reversable == true)
+        this->send(this->centerns);
+    else
+        this->send(0);
+
     this->start_pwms();
 }
 
 void ESCDriver::stop()
 {
-    this->send(this->centerns);
+    if (this->reversable == true)
+        this->send(this->centerns);
+    else
+        this->send(0);
+
     this->stop_pwms();
 }
 

@@ -105,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES motor_driver
-#  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -117,8 +117,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
-  
+  ${catkin_INCLUDE_DIRS}  
 )
 
 link_directories(include)
@@ -150,7 +149,7 @@ link_directories(include)
 
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(
-#  ${PROJECT_NAME} include
+#  ${catkin_LIBRARIES}
 #)
 
 #############
@@ -209,3 +208,4 @@ link_directories(include)
 # catkin_add_nosetests(test)
 
 add_executable(motor_driver src/motordriver.cpp src/escdriver.cpp)
+target_link_libraries(motor_driver ${catkin_LIBRARIES})

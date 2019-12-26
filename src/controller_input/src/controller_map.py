@@ -15,32 +15,31 @@ parser = argparse.ArgumentParser(description='Map Controller Inputs to ROS outpu
 parser.add_argument('-i', '--input_event', type=str, default='/dev/input/event2',
 	help='The event in /dev/input/ where the controller events come from')
 
-class Button(Enum):
-	LEFT_ACTION = 1
-	RIGHT_ACTION = 2
-	UP_ACTION = 3
-	DOWN_ACTION = 4
+LEFT_ACTION = 1
+RIGHT_ACTION = 2
+UP_ACTION = 3
+DOWN_ACTION = 4
 
-	LEFT_DIRECTION = 5
-	RIGHT_DIRECTION = 6
-	UP_DIRECTION = 7
-	DOWN_DIRECTION = 8
+LEFT_DIRECTION = 5
+RIGHT_DIRECTION = 6
+UP_DIRECTION = 7
+DOWN_DIRECTION = 8
 
-	LEFT_TRIGGER = 9
-	RIGHT_TRIGGER = 10
-	LEFT_BUMPER = 11
-	RIGHT_BUMPER = 12
+LEFT_TRIGGER = 9
+RIGHT_TRIGGER = 10
+LEFT_BUMPER = 11
+RIGHT_BUMPER = 12
 
-	START = 13
-	SELECT = 14
+START = 13
+SELECT = 14
 
-	LEFT_STICK_MOVE_VERTICAL = 15
-	LEFT_STICK_MOVE_HORIZONTAL = 16
-	RIGHT_STICK_MOVE_VERTICAL = 17
+LEFT_STICK_MOVE_VERTICAL = 15
+LEFT_STICK_MOVE_HORIZONTAL = 16
+RIGHT_STICK_MOVE_VERTICAL = 17
 	
-	RIGHT_STICK_MOVE_HORIZONTAL = 18
-	LEFT_STICK_PRESS = 19
-	RIGHT_STICK_PRESS = 20
+RIGHT_STICK_MOVE_HORIZONTAL = 18
+LEFT_STICK_PRESS = 19
+RIGHT_STICK_PRESS = 20
 
 def getGamepadOutputs():
 	args = parser.parse_args()
@@ -91,60 +90,61 @@ def getGamepadOutputs():
 			#print(event)
 			if event.code == updown:
 				if event.value < 0:
-					eventmsg = (Button.UP_DIRECTION, 1, event.value)
+					eventmsg = (UP_DIRECTION, 1, event.value)
 				elif event.value > 0:
-					eventmsg = (Button.DOWN_DIRECTION, 1, event.value)
+					eventmsg = (DOWN_DIRECTION, 1, event.value)
 			elif event.code == leftright:
 				if event.value < 0:
-					eventmsg = (Button.LEFT_DIRECTION, 1, event.value)
+					eventmsg = (LEFT_DIRECTION, 1, event.value)
 				elif event.value > 0:
-					eventmsg = (Button.RIGHT_DIRECTION, 1, event.value)
+					eventmsg = (RIGHT_DIRECTION, 1, event.value)
 
 			elif event.code == lTrigAbs:
-				eventmsg = (Button.RIGHT_TRIGGER, 0, event.value)
+				eventmsg = (RIGHT_TRIGGER, 0, event.value)
 			elif event.code == rTrigAbs:
-				eventmsg = (Button.LEFT_TRIGGER, 0, event.value)
+				eventmsg = (LEFT_TRIGGER, 0, event.value)
 
 			elif event.code == lStickUpDownAbs:
-				eventmsg = (Button.LEFT_STICK_MOVE_VERTICAL, 0, event.value)
+				eventmsg = (LEFT_STICK_MOVE_VERTICAL, 0, event.value)
 			elif event.code == lStickLeftRightAbs:
-				eventmsg = (Button.LEFT_STICK_MOVE_HORIZONTAL, 0, event.value)
+				eventmsg = (LEFT_STICK_MOVE_HORIZONTAL, 0, event.value)
 			elif event.code == rStickUpDownAbs:
-				eventmsg = (Button.RIGHT_STICK_MOVE_VERTICAL, 0, event.value)
+				eventmsg = (RIGHT_STICK_MOVE_VERTICAL, 0, event.value)
 			elif event.code == rStickLeftRightAbs:
-				eventmsg = (Button.RIGHT_STICK_MOVE_HORIZONTAL, 0 , event.value)
+				eventmsg = (RIGHT_STICK_MOVE_HORIZONTAL, 0 , event.value)
 
 		if event.type == ecodes.EV_KEY:
 			if event.code == sqBtn:
-				eventmsg = (Button.LEFT_ACTION, 1, event.value)
+				eventmsg = (LEFT_ACTION, 1, event.value)
 			elif event.code == xBtn:
-				eventmsg = (Button.DOWN_ACTION, 1, event.value)
+				eventmsg = (DOWN_ACTION, 1, event.value)
 			elif event.code == circBtn:
-				eventmsg = (Button.RIGHT_ACTION, 1, event.value)
+				eventmsg = (RIGHT_ACTION, 1, event.value)
 			elif event.code == triBtn:
-				eventmsg = (Button.UP_ACTION, 1, event.value)
+				eventmsg = (UP_ACTION, 1, event.value)
 
 			elif event.code == lBump:
-				eventmsg = (Button.LEFT_BUMPER, 1, event.value)
+				eventmsg = (LEFT_BUMPER, 1, event.value)
 			elif event.code == rBump:
-				eventmsg = (Button.RIGHT_BUMPER, 1, event.value)
+				eventmsg = (RIGHT_BUMPER, 1, event.value)
 
 			elif event.code == lStick:
-				eventmsg = (Button.LEFT_STICK_PRESS, 1, event.value)
+				eventmsg = (LEFT_STICK_PRESS, 1, event.value)
 			elif event.code == rStick:
-				eventmsg = (Button.RIGHT_STICK_PRESS, 1, event.value)
+				eventmsg = (RIGHT_STICK_PRESS, 1, event.value)
 
 			elif event.code == start:
-				eventmsg = (Button.START, 1, event.value)
+				eventmsg = (START, 1, event.value)
 			elif event.code == select:
-				eventmsg = (Button.SELECT, 1, event.value)
+				eventmsg = (SELECT, 1, event.value)
 
-		newmsg = gamepad_output()
-		newmsg.id = msg[0]
-		newmsg.is_button = msg[1]
-		newmsg.value = msg[2]
+		if (eventmsg[0] != 0):
+			newmsg = gamepad_output()
+			newmsg.id = eventmsg[0]
+			newmsg.is_button = eventmsg[1]
+			newmsg.value = eventmsg[2]
 
-		pub.publish(newmsg)
+			pub.publish(newmsg)
 
 
 if __name__ == "__main__":

@@ -207,3 +207,8 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
+add_dependencies(
+  eos_msgs_generate_messages
+  eos_msgs_gencpp
+  eos_msgs_genpy  
+)

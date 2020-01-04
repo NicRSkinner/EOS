@@ -132,6 +132,7 @@ link_directories(include)
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
@@ -209,3 +210,9 @@ link_directories(include)
 
 add_executable(motor_driver src/motordriver.cpp src/escdriver.cpp)
 target_link_libraries(motor_driver ${catkin_LIBRARIES})
+
+add_dependencies(motor_driver
+  eos_msgs_generate_messages
+  eos_msgs_gencpp
+  eos_msgs_genpy
+)

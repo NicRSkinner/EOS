@@ -205,3 +205,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(eos_main src/main.cpp)
+target_link_libraries(eos_main ${catkin_LIBRARIES})

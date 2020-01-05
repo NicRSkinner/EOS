@@ -20,11 +20,13 @@ public:
     ESCDriver(int channel, unsigned long int minns, unsigned long int maxns, unsigned long int centerns, bool reversible);
     void start();
     void stop();
-    void send(int val);
+    void send(int val, int lowerBound, int upperBound);
     int read();
     
 
 private:
+    unsigned long int normalize(int minFrom, int maxFrom, unsigned long int minTo,
+                                 unsigned long int maxTo, int val);
     void export_pwms();
     void set_period(unsigned long int ns);
     void set_duty(unsigned long int duty);

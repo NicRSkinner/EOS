@@ -16,9 +16,9 @@ void ESCDriver::start()
     this->set_period(2000000); // Period=20ms
 
     if (this->reversible == true)
-        this->send(this->centerns);
+        this->set_duty(this->centerns);
     else
-        this->send(0);
+        this->send(0, 0, 255);
 
     this->start_pwms();
 }
@@ -26,16 +26,27 @@ void ESCDriver::start()
 void ESCDriver::stop()
 {
     if (this->reversible == true)
-        this->send(this->centerns);
+        this->set_duty(this->centerns);
     else
-        this->send(0);
+        this->send(0, 0, 255);
 
     this->stop_pwms();
 }
 
-void ESCDriver::send(int val)
+void ESCDriver::send(int val, int lowerBound, int upperBound)
 {
-    
+    if (val > upperBound) val = upperBound;
+    if (val < lowerBound) val = lowerBound;
+
+    unsigned long int pwmns = normalize(lowerBound, upperBound, this->minns, this->maxns, val);
+
+    this->set_duty(pwmns);
+}
+
+unsigned long int ESCDriver::normalize(int minFrom, int maxFrom, unsigned long int minTo,
+                                        unsigned long int maxTo, int val)
+{
+    return (maxTo - minTo) * ((val - minFrom)/(maxFrom - minFrom)) + minTo;
 }
 
 int ESCDriver::read()

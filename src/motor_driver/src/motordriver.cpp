@@ -4,11 +4,21 @@
 
 #include "ros/ros.h"
 #include "escdriver.h"
-#include "eos_msgs/gamepad_output.h"
+#include "eos_msgs/Motor.h"
 
-void inputCallback(const eos_msgs::gamepad_output::ConstPtr &msg)
+// Check to make sure this works.
+ESCDriver rwMotor(0, 500000lu, 1500000lu, 2000000lu, false);
+
+void rearWheelInputCallback(const eos_msgs::Motor::ConstPtr &msg)
 {
-    std::cout << msg->id << std::endl;
+    std::cout << msg->name.data << std::endl;
+
+    rwMotor.send(msg->speed, 0, 255);
+}
+
+void steeringInputCallback(const eos_msgs::Motor::ConstPtr &msg)
+{
+
 }
 
 int main(int argc, char *argv[])
@@ -17,9 +27,6 @@ int main(int argc, char *argv[])
     ros::NodeHandle n;
     ros::Rate loop_rate(10);
 
-    // Check to make sure this works.
-    ESCDriver rwMotor(0, 500000lu, 1500000lu, 2000000lu, false);
-
     // Initialize the ESC driver, needs a HIGH signal to init.
     rwMotor.start();
     rwMotor.send(255, 0, 255);
@@ -27,7 +34,8 @@ int main(int argc, char *argv[])
     rwMotor.send(0, 0, 255);
 
 
-    ros::Subscriber input_sub = n.subscribe("motor_control", 1000, inputCallback);
-
+    ros::Subscriber rw_input_sub = n.subscribe("motor_control_rear_drive", 1000, rearWheelInputCallback);
+    ros::Subscriber sw_input_sub = n.subscribe("motor_control_steering", 1000, steeringInputCallback);
+    
     ros::spin();
 }

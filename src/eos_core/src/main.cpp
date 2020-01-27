@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     ros::NodeHandle n;
     ros::Rate loop_rate(10);
 
-    ros::Subscriber sub = n.subscribe("gamepad_output", 1000, gamepadCallback);
+    ros::Subscriber sub = n.subscribe("gamepad", 1000, gamepadCallback);
     motor_publisher = n.advertise<eos_msgs::Motor>("motor_control_rear_drive", 1000);
     ros::spin();
 

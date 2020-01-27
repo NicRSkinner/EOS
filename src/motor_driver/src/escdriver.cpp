@@ -85,13 +85,13 @@ void ESCDriver::set_period(unsigned long int ns)
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/period_ns", this->channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/period", this->channel);
 
     fd = open(buf, O_WRONLY);
     
     if (fd < 0)
     {
-        perror("unable to open pwm/period_ns");
+        perror("unable to open pwm/period");
         return;
     }
 
@@ -107,13 +107,13 @@ void ESCDriver::set_duty(unsigned long int duty)
     char buf[MAX_BUF];
     char path[MAX_BUF];
 
-    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d/duty_ns", this->channel);
+    snprintf(path, sizeof(path), "/sys/class/pwm/pwmchip0/pwm%d/duty_cycle", this->channel);
 
     fd = open(path, O_WRONLY);
 
     if (fd < 0)
     {
-        perror("unable to open pwm/duty_ns");
+        perror("unable to open pwm/duty_cycle");
         return;
     }
 
@@ -127,13 +127,13 @@ void ESCDriver::start_pwms()
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this->channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/enable", this->channel);
 
     fd = open(buf, O_WRONLY);
 
     if (fd < 0)
     {
-        perror("unable to open pwm/run");
+        perror("unable to open pwm/enable");
         return;
     }
 
@@ -147,13 +147,13 @@ void ESCDriver::stop_pwms()
     int fd, len;
     char buf[MAX_BUF];
 
-    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/run", this->channel);
+    snprintf(buf, sizeof(buf), "/sys/class/pwm/pwmchip0/pwm%d/enable", this->channel);
 
     fd = open(buf, O_WRONLY);
 
     if (fd < 0)
     {
-        perror("unable to open pwm/run");
+        perror("unable to open pwm/enable");
         return;
     }
 

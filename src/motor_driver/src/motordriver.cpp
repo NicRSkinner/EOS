@@ -13,7 +13,7 @@ void rearWheelInputCallback(const eos_msgs::Motor::ConstPtr &msg)
 {
     std::cout << msg->name.data << std::endl;
 
-    rwMotor.send(msg->speed, 0, 255);
+    //rwMotor.send(msg->speed, 0, 255);
 }
 
 void steeringInputCallback(const eos_msgs::Motor::ConstPtr &msg)

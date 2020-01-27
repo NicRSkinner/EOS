@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# IMPORTANT: User MUST be part of the input group with rw permissions on the files.
+#		Otherwise this program will not run. 
+#		ROS doesn't easily allow the use of sudo permissions on programs.
+
 # Format for the info published to the rostopic:
 # Button Number, is_button, value
 

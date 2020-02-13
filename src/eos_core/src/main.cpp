@@ -5,6 +5,8 @@
 
 ros::Publisher motor_publisher;
 
+// The triggers need to have value remembered, so that it can't flop back and fourth
+//      when both triggers are pressed.
 void gamepadCallback(const eos_msgs::gamepad_output::ConstPtr &msg)
 {
     // Right Trigger
@@ -15,6 +17,19 @@ void gamepadCallback(const eos_msgs::gamepad_output::ConstPtr &msg)
         out_msg.id = 0;
         out_msg.name.data = "Motor Set";
         out_msg.speed = msg->value;
+        out_msg.position = 0;
+        out_msg.feedback = 0;
+
+        motor_publisher.publish(out_msg);
+    }
+    // Left Trigger
+    else if (msg->id == 9)
+    {
+        eos_msgs::Motor out_msg;
+
+        out_msg.id = 0;
+        out_msg.name.data = "Motor Set";
+        out_msg.speed = -1 * msg->value;
         out_msg.position = 0;
         out_msg.feedback = 0;
 

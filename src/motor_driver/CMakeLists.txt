@@ -19,8 +19,10 @@ include_directories(
 
 link_directories(include)
 
-add_executable(motor_driver src/motordriver.cpp src/escdriver.cpp)
-target_link_libraries(motor_driver ${catkin_LIBRARIES})
+add_executable(motor_driver src/motordriver.cpp src/DRF0601.cpp)
+target_link_libraries(motor_driver
+  ${catkin_LIBRARIES}
+  wiringPi)
 
 add_dependencies(motor_driver
   eos_msgs_generate_messages

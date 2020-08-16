@@ -6,6 +6,8 @@
 #include "DRF0601.h"
 #include "eos_msgs/Motor.h"
 
+#ifndef _ARCH_TESTING_
+
 // Check to make sure this works.
 DRF0601 rwMotor(1, 4, 5, 255);
 
@@ -29,8 +31,11 @@ void steeringInputCallback(const eos_msgs::Motor::ConstPtr &msg)
 
 }
 
+#endif
+
 int main(int argc, char *argv[])
 {
+#ifndef _ARCH_TESTING_
     ros::init(argc, argv, "motor_driver");
     ros::NodeHandle n;
     ros::Rate loop_rate(10);
@@ -41,4 +46,7 @@ int main(int argc, char *argv[])
     ros::Subscriber sw_input_sub = n.subscribe("motor_control_steering", 1000, steeringInputCallback);
     
     ros::spin();
+#endif
 }
+
+

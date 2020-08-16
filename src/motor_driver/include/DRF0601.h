@@ -1,6 +1,8 @@
 #ifndef _DRF0601_H_
 #define _DRF0601_H_
 
+#ifndef _ARCH_TESTING_
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -28,4 +30,5 @@ private:
     DRF0601();
 };
 
+#endif
 #endif

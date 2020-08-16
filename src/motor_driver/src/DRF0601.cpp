@@ -1,5 +1,7 @@
 #include "DRF0601.h"
 
+#ifndef _ARCH_TESTING_
+
 DRF0601::DRF0601(int pwmPin, int fwPin, int revPin, int pwmRange)
 {
     wiringPiSetup();
@@ -53,3 +55,5 @@ void DRF0601::send(int val, bool reverse)
 
 DRF0601::DRF0601()
 { }
+
+#endif

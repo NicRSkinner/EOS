@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot name="origins">
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="6 3 1"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="front_right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="1" length="0.2"/>
+            </geometry>
+            <origin rpy="1.57075 0 -1.57075"/>
+        </visual>
+    </link>
+
+    <link name="front_left_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="1" length="0.2"/>
+            </geometry>
+            <origin rpy="1.57075 0 -1.57075"/>
+        </visual>
+    </link>
+
+    <link name="rear_right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="1" length="0.2"/>
+            </geometry>
+            <origin rpy="1.57075 0 -1.57075"/>
+        </visual>
+    </link>
+
+    <link name="rear_left_wheel">
+        <visual>
+            <geometry>
+                <mesh filename="package://eos_urdf/15x6.5Tire.stl"/>
+            </geometry>
+            <origin rpy="1.57075 0 -1.57075"/>
+        </visual>
+    </link>
+
+    <joint name="base_to_front_right_wheel" type="revolute">
+        <parent link="base_link"/>
+        <child link="front_right_wheel"/>
+        <origin xyz="-3 1.6 -0.5" rpy="0.0 0.0 1.57075"/>
+        <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    </joint>
+
+    <joint name="base_to_front_left_wheel" type="revolute">
+        <parent link="base_link"/>
+        <child link="front_left_wheel"/>
+        <origin xyz="-3 -1.6 -0.5" rpy="0.0 0.0 1.57075"/>
+        <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    </joint>
+
+    <joint name="base_to_rear_right_wheel" type="revolute">
+        <parent link="base_link"/>
+        <child link="rear_right_wheel"/>
+        <origin xyz="3 1.6 -0.5" rpy="0.0 0.0 1.57075"/>
+        <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    </joint>
+
+    <joint name="base_to_rear_left_wheel" type="revolute">
+        <parent link="base_link"/>
+        <child link="rear_left_wheel"/>
+        <origin xyz="3 -1.6 -0.5" rpy="0.0 0.0 1.57075"/>
+        <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    </joint>
+
+</robot>
